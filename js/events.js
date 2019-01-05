@@ -8,6 +8,12 @@ document.addEventListener("DOMContentLoaded", e => {
   let game = new Game();
   console.log("Game Started");
 
+  let reset = document.querySelector(".title");
+  reset.addEventListener("click", e =>{
+    game.resetBoard();
+    console.log("Game Reset");
+  });
+
   //Select a piece
   document.addEventListener("click", e =>{
     let target = e.target;

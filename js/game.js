@@ -6,9 +6,10 @@ class Game {
     this.loadBoard();
     this.loadPieces();
   }
-  startGame () {
-    loadBoard();
-    loadPieces();
+
+  resetBoard () {
+    this.loadBoard();
+    this.loadPieces();
   }
 
   //create game board
@@ -52,5 +53,5 @@ class Game {
       }
     });
   }
-  
+
 }
