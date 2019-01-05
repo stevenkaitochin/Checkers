@@ -1,57 +1,71 @@
 
+// Steven Chin & Tzuhsien Liu
 
-class Game {
-  constructor(turn = "player1") {
-    this.turn = turn;
-    this.loadBoard();
-    this.loadPieces();
-  }
+// On document loaded init Game
+document.addEventListener("DOMContentLoaded", e => {
+  let selected = false;
+  let prevPiece;
+  let board = new Board();
+  console.log("Game Started");
 
-  resetBoard () {
-    this.loadBoard();
-    this.loadPieces();
-  }
+  let reset = document.querySelector(".title");
+  reset.addEventListener("click", e =>{
+    board.resetBoard();
+    console.log("Game Reset");
+  });
 
-  //create game board
-  loadBoard() {
-    let board = document.getElementById("board");
-    let markup = ``;
-    for (let i = 0; i < 8; i++) {
-      markup += `<div class="row"> `;
-      for (let j = 0; j < 8; j++) {
-        if (i % 2 === 0) {
-          if (j % 2 === 0) {
-            markup += ` <div class="block white" data-location="${i},${j}"> </div> `;
-          } else {
-            markup += ` <div class="block black" data-location="${i},${j}"> </div> `;
-          }
-        } else {
-          if (j % 2 === 0) {
-            markup += ` <div class="block black" data-location="${i},${j}"> </div> `;
-          } else {
-            markup += ` <div class="block white data-location="${i},${j}"></div> `;
-          }
-        }
+  //Select a piece
+  document.addEventListener("click", e =>{
+    let target = e.target;
+    let isPiece = target.classList.contains("piece");
+
+    if (isPiece && !selected) {
+      target.classList.toggle("selected");
+      prevPiece = target;
+      selected = true;
+    } else if (isPiece && selected) {
+      target.classList.toggle("selected");
+      if(prevPiece !== target){
+        prevPiece.classList.remove("selected");
       }
-      markup += ` </div> `;
+      prevPiece = target;
+      selected = true;
     }
-    board.innerHTML = markup;
-  };
-  
-  //load game pieces
-  loadPieces() {
-    let blackSpaces = document.querySelectorAll(".black");   
-  
-    blackSpaces.forEach(space => {
-      let location = space.getAttribute("data-location").split(",");
-      let piece1 = `<div class="piece player1"> </div>`;
-      let piece2 = `<div class="piece player2"> </div>`;
-      if (Number(location[0]) < 3) { 
-        space.innerHTML = piece1;
-      } else if (Number(location[0]) > 4){
-        space.innerHTML = piece2;
+  });
+
+  //Move the piece
+  document.addEventListener("click", e =>{
+    let target = e.target;
+    let isBlock = target.classList.contains("black");
+    let validMove = checkIfValidMove(target);
+    if (isBlock && selected && validMove) {
+      if(prevPiece){
+        prevPiece.classList.remove("selected");
       }
-    });
+      prevPiece.parentNode.removeChild(prevPiece);
+      target.appendChild(prevPiece);
+      selected = false;
+      console.log("Made a move");
+    }
+  });
+
+  let checkIfValidMove = (targetSpace) => {
+    //cant move backwards (different for each player)
+    
+    //cant move more then one space 
+
+    //cant move on space with a piece
+    let blockEmpty = targetSpace.children.length === 0;
+
+    if(blockEmpty)
+      return true;
+    else {
+      console.log("Invalid Move!");
+      return false;
+    } 
   }
 
-}
+});
+
+
+
