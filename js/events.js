@@ -39,7 +39,7 @@ document.addEventListener("DOMContentLoaded", e => {
   document.addEventListener("click", e =>{
     let target = e.target;
     let isBlock = target.classList.contains("black");
-    if (isBlock && selected) {
+    if (isBlock && selected && target.children.length === 0) {
       if(prevPiece){
         prevPiece.classList.remove("selected");
       }
