@@ -1,6 +1,60 @@
 /* Steven Chin and Tzuhsien Liu */
 
-h1 {
-	color: red;
-	font-size: 50px;
+.title {
+	color: burlywood;
+  font-size: 32px;
+  margin: 0;
 }
+
+/* board styling */
+#board{
+  width: 600px;
+  margin: 0 auto;
+  border: 10px solid brown;
+}
+.row {
+  display: flex;
+}
+
+/* block styling */
+.block {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 75px;
+  height: 75px;
+}
+
+.black {
+  background: black;
+}
+
+.white {
+  background: red;
+}
+/* block styling end */
+
+/* piece styling */
+
+.piece {
+  border-radius: 50%; 
+  width: 50px;
+  height: 50px;
+}
+
+.selected {
+  border: 2px solid lightblue; 
+}
+
+.player1 {
+  background: green;
+}
+
+.player2 {
+  background: purple;
+}
+
+/* piece styling end */
+
+
+/* board styling end*/
