@@ -44,11 +44,16 @@ class Game extends Board {
     }
 
     if (piece.classList.contains("playerP")) {
-      if ((prevLocation[0] - newLocation[0] == 2) && (prevLocation[1] - newLocation[1] == 2)) {
-        if (prevLocation[0] - 1 && prevLocation[1] - 1 == playerG) {
-          
-        }
-      }
+      if ((prevLocation[0] - newLocation[0] == 2) && (newLocation[1] - prevLocation[1] == 2)) {
+        let deleteX = Number(newLocation[0]) + 1;
+        let deleteY = Number(newLocation[1]) - 1;
+        let del = document.getElementById(deleteX+","+deleteY);
+      
+        del.removeChild(del.firstElementChild);
+        piece.parentNode.removeChild(piece);
+        targetSpace.appendChild(piece);
+       
+      }  
     }
     
     //cant move more then one space 

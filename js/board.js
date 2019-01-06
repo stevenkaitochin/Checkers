@@ -22,11 +22,11 @@ class Board {
           if (j % 2 === 0) {
             markup += ` <div class="block red" data-location="${i},${j}"> </div> `;
           } else {
-            markup += ` <div class="block black" data-location="${i},${j}"> </div> `;
+            markup += ` <div id="${i},${j}" class="block black" data-location="${i},${j}"> </div> `;
           }
         } else {
           if (j % 2 === 0) {
-            markup += ` <div class="block black" data-location="${i},${j}"> </div> `;
+            markup += ` <div id="${i},${j}" class="block black" data-location="${i},${j}"> </div> `;
           } else {
             markup += ` <div class="block red data-location="${i},${j}"></div> `;
           }
