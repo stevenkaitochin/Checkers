@@ -62,6 +62,17 @@ class Game extends Board {
         del.removeChild(del.firstElementChild);
         piece.parentNode.removeChild(piece);
         targetSpace.appendChild(piece);
+        if (newLocation[0] !== 0) {
+          if (newLocation[1] === 7) {
+            // Check if top left is green
+          }
+          else if (newLocation[1] === 0) {
+            //check if top right is green
+          }
+          else {
+            //check if top left or right is green
+          }
+        }
       }
       else if ((prevLocation[0] - newLocation[0] == 2) && (prevLocation[1] - newLocation[1] == 2)) {
         let deleteX = Number(newLocation[0]) + 1;
