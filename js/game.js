@@ -47,13 +47,42 @@ class Game extends Board {
       if ((prevLocation[0] - newLocation[0] == 2) && (newLocation[1] - prevLocation[1] == 2)) {
         let deleteX = Number(newLocation[0]) + 1;
         let deleteY = Number(newLocation[1]) - 1;
-        let del = document.getElementById(deleteX+","+deleteY);
+        let del = document.getElementById(deleteX + "," + deleteY);
       
         del.removeChild(del.firstElementChild);
         piece.parentNode.removeChild(piece);
         targetSpace.appendChild(piece);
-       
       }  
+      else if ((prevLocation[0] - newLocation[0] == 2) && (prevLocation[1] - newLocation[1] == 2)) {
+        let deleteX = Number(newLocation[0]) + 1;
+        let deleteY = Number(newLocation[1]) + 1;
+        let del = document.getElementById(deleteX + "," + deleteY);
+
+        del.removeChild(del.firstElementChild);
+        piece.parentNode.removeChild(piece);
+        targetSpace.appendChild(piece);
+      }
+    }
+
+    else if (piece.classList.contains("playerG")) {
+      if ((newLocation[0] - prevLocation[0] == 2) && (prevLocation[1] - newLocation[1] == 2)) {
+        let deleteX = Number(newLocation[0]) - 1;
+        let deleteY = Number(newLocation[1]) + 1;
+        let del = document.getElementById(deleteX + "," + deleteY);
+      
+        del.removeChild(del.firstElementChild);
+        piece.parentNode.removeChild(piece);
+        targetSpace.appendChild(piece);
+      }  
+      else if ((newLocation[0] - prevLocation[0] == 2) && (newLocation[1] - prevLocation[1] == 2)) {
+        let deleteX = Number(newLocation[0]) - 1;
+        let deleteY = Number(newLocation[1]) - 1;
+        let del = document.getElementById(deleteX + "," + deleteY);
+
+        del.removeChild(del.firstElementChild);
+        piece.parentNode.removeChild(piece);
+        targetSpace.appendChild(piece);
+      }
     }
     
     //cant move more then one space 
