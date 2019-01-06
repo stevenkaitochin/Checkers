@@ -1,7 +1,7 @@
 // Steven Chin & Tzuhsien Liu
 
 class Game extends Board {
-
+  
   constructor() {
     super(Board);
     this.turn = 0;
