@@ -1,8 +1,7 @@
-
+// Steven Chin and Tzuhsien Liu
 
 class Board {
-  constructor(turn = "player1") {
-    this.turn = turn;
+  constructor() {
     this.loadBoard();
     this.loadPieces();
   }
@@ -21,7 +20,7 @@ class Board {
       for (let j = 0; j < 8; j++) {
         if (i % 2 === 0) {
           if (j % 2 === 0) {
-            markup += ` <div class="block white" data-location="${i},${j}"> </div> `;
+            markup += ` <div class="block red" data-location="${i},${j}"> </div> `;
           } else {
             markup += ` <div class="block black" data-location="${i},${j}"> </div> `;
           }
@@ -29,7 +28,7 @@ class Board {
           if (j % 2 === 0) {
             markup += ` <div class="block black" data-location="${i},${j}"> </div> `;
           } else {
-            markup += ` <div class="block white data-location="${i},${j}"></div> `;
+            markup += ` <div class="block red data-location="${i},${j}"></div> `;
           }
         }
       }
@@ -41,11 +40,11 @@ class Board {
   //load game pieces
   loadPieces() {
     let blackSpaces = document.querySelectorAll(".black");   
-  
+
     blackSpaces.forEach(space => {
       let location = space.getAttribute("data-location").split(",");
-      let piece1 = `<div class="piece player1"> </div>`;
-      let piece2 = `<div class="piece player2"> </div>`;
+      let piece1 = `<div class="piece playerG"> </div>`;
+      let piece2 = `<div class="piece playerP"> </div>`;
       if (Number(location[0]) < 3) { 
         space.innerHTML = piece1;
       } else if (Number(location[0]) > 4){
