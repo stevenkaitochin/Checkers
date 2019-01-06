@@ -1,9 +1,11 @@
 /* Steven Chin and Tzuhsien Liu */
 
 .title {
+  text-align: center;
 	color: burlywood;
   font-size: 32px;
-  margin: 0;
+  margin: 0px;
+  margin-bottom: 50px;
 }
 
 /* board styling */
@@ -29,7 +31,7 @@
   background: black;
 }
 
-.white {
+.red {
   background: red;
 }
 /* block styling end */
@@ -46,11 +48,11 @@
   border: 2px solid lightblue; 
 }
 
-.player1 {
+.playerG {
   background: green;
 }
 
-.player2 {
+.playerP {
   background: purple;
 }
 
