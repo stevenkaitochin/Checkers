@@ -115,4 +115,11 @@ class Game extends Board {
     return true;
   }
 
+  becomeKingPiece (piece) {
+    piece.classList.add("king");
+    piece.innerHTML = `
+      <i class="fab fa-jedi-order"></i>
+    `;
+  }
+
 }
