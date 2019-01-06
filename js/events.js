@@ -7,13 +7,12 @@ document.addEventListener("DOMContentLoaded", e => {
   let selected = false;
   let prevPiece;
   let board = new Board();
-  console.log("Game Started");
 
   game = new Game();
-  console.log("Turn " + game.getTurn());
 
   let reset = document.querySelector(".title");
   reset.addEventListener("click", e =>{
+    game.turn = 0;
     board.resetBoard();
     console.log("Game Reset");
   });
@@ -51,8 +50,6 @@ document.addEventListener("DOMContentLoaded", e => {
         target.appendChild(prevPiece);
         selected = false;
         game.nextTurn();
-        console.log("Made a move");
-        console.log("Turn " + game.getTurn());
       }
     }
 

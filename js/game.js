@@ -42,6 +42,14 @@ class Game extends Board {
         return false;
       }
     }
+
+    if (piece.classList.contains("playerP")) {
+      if ((prevLocation[0] - newLocation[0] == 2) && (prevLocation[1] - newLocation[1] == 2)) {
+        if (prevLocation[0] - 1 && prevLocation[1] - 1 == playerG) {
+          
+        }
+      }
+    }
     
     //cant move more then one space 
     if (piece.classList.contains("playerP")) {
@@ -62,7 +70,7 @@ class Game extends Board {
       return true;
 
     } else {
-      console.log("Invalid Move!");
+
       return false;
     } 
   }
