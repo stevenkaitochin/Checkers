@@ -1,7 +1,7 @@
 // Steven Chin & Tzuhsien Liu
 
 class Game extends Board {
-
+  
   constructor() {
     super(Board);
     this.turn = 0;
@@ -145,6 +145,13 @@ class Game extends Board {
     }
 
     return true;
+  }
+
+  becomeKingPiece (piece) {
+    piece.classList.add("king");
+    piece.innerHTML = `
+      <i class="fab fa-jedi-order"></i>
+    `;
   }
 
 }
