@@ -52,6 +52,7 @@ class Game extends Board {
 
     // making a jump 
     if (piece.classList.contains("playerP")) {
+      // making a jump to the top right
       if ((prevLocation[0] - newLocation[0] == 2) && (newLocation[1] - prevLocation[1] == 2)) {
         let deleteX = Number(newLocation[0]) + 1;
         let deleteY = Number(newLocation[1]) - 1;
@@ -62,18 +63,36 @@ class Game extends Board {
         del.removeChild(del.firstElementChild);
         piece.parentNode.removeChild(piece);
         targetSpace.appendChild(piece);
-        if (newLocation[0] !== 0) {
-          if (newLocation[1] === 7) {
-            // Check if top left is green
+
+        let tempR, tempC;
+        let tempR2, tempC2;
+
+        // check if top left can be jumped
+        if (Number(newLocation[0]) !== 0) {
+          if (Number(newLocation[1]) > 0) {
+            tempR = Number(newLocation[0]) - 1;
+            tempC = Number(newLocation[1]) - 1;
+            let temp = document.getElementById(tempR + "," + tempC);
+            if (temp.firstElementChild.classList.contains("playerG")) {
+              if (tempR != 0 && tempC != 0) {
+                tempR2 = tempR - 1;
+                tempC2 = tempC - 1;
+                let temp2 = document.getElementById(tempR2 + "," + tempC2);
+                if (temp2.firstElementChild.classList.contains("playerG")) {
+                  return false;
+                }
+              }
+            }
           }
           else if (newLocation[1] === 0) {
-            //check if top right is green
+            // check if top right can be jumped
           }
           else {
             //check if top left or right is green
           }
         }
       }
+      // making a jump to the top left
       else if ((prevLocation[0] - newLocation[0] == 2) && (prevLocation[1] - newLocation[1] == 2)) {
         let deleteX = Number(newLocation[0]) + 1;
         let deleteY = Number(newLocation[1]) + 1;
@@ -87,6 +106,7 @@ class Game extends Board {
       }
     }
     else if (piece.classList.contains("playerG")) {
+      // making a jump to the bottom left
       if ((newLocation[0] - prevLocation[0] == 2) && (prevLocation[1] - newLocation[1] == 2)) {
         let deleteX = Number(newLocation[0]) - 1;
         let deleteY = Number(newLocation[1]) + 1;
@@ -98,6 +118,7 @@ class Game extends Board {
         piece.parentNode.removeChild(piece);
         targetSpace.appendChild(piece);
       }
+      // making a jump to the bottom right
       else if ((newLocation[0] - prevLocation[0] == 2) && (newLocation[1] - prevLocation[1] == 2)) {
         let deleteX = Number(newLocation[0]) - 1;
         let deleteY = Number(newLocation[1]) - 1;
