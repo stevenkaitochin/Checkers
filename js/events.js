@@ -42,7 +42,8 @@ document.addEventListener("DOMContentLoaded", e => {
     //Select a block after selecting a piece
     else if (isBlock && selected) {
       let validMove = game.checkIfValidMove(target, prevPiece);
-      if (validMove) {
+      if (validMove || game.checkHasMoved()) {
+        console.log(game.getTurn());
         if(prevPiece){
           prevPiece.classList.remove("selected");
         }
