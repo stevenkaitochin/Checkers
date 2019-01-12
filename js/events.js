@@ -39,7 +39,7 @@ document.addEventListener("DOMContentLoaded", e => {
       prevPiece = target;
       selected = true;
     }
-    //Select a block after select a piece
+    //Select a block after selecting a piece
     else if (isBlock && selected) {
       let validMove = game.checkIfValidMove(target, prevPiece);
       if (validMove) {
