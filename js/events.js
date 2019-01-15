@@ -44,8 +44,8 @@ document.addEventListener("DOMContentLoaded", e => {
       let validMove = game.checkIfValidMove(target, prevPiece);
       let jumpPiece =  game.getPiece();
       if (validMove || game.checkHasMoved()) {
-        console.log(game.getTurn());
-        if(prevPiece){
+        console.log(game.getTurn()); 
+        if (prevPiece) {
           prevPiece.classList.remove("selected");
         }
         prevPiece.parentNode.removeChild(prevPiece);
