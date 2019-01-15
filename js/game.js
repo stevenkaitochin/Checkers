@@ -5,6 +5,7 @@ class Game extends Board {
     super(Board);
     this.turn = 0;
     this.hasMoved = false;
+    this.piece;
   }
 
   nextTurn() {
@@ -18,6 +19,10 @@ class Game extends Board {
 
   checkHasMoved() {
     return this.hasMoved;
+  }
+
+  getPiece() {
+    return this.piece;
   }
 
   checkIfValidMove(targetSpace, piece) {
@@ -55,7 +60,7 @@ class Game extends Board {
     }
 
     // making a jump
-    if (piece.classList.contains("playerP")) {
+    if (piece !== null && piece.classList.contains("playerP")) {
       // making a jump to the top right
       if (
         prevLocation[0] - newLocation[0] == 2 &&
@@ -64,7 +69,10 @@ class Game extends Board {
         let deleteX = Number(newLocation[0]) + 1;
         let deleteY = Number(newLocation[1]) - 1;
         let del = document.getElementById(deleteX + "," + deleteY);
-        if (del.firstElementChild.classList.contains("playerP")) {
+        if (
+          del.firstElementChild !== null &&
+          del.firstElementChild.classList.contains("playerP")
+        ) {
           return false;
         }
         del.removeChild(del.firstElementChild);
@@ -72,6 +80,7 @@ class Game extends Board {
         targetSpace.appendChild(piece);
         if (this.checkMultiJump("playerP", newLocation, piece) === false) {
           this.hasMoved = true;
+          this.piece = piece;
           return false;
         }
       }
@@ -83,7 +92,10 @@ class Game extends Board {
         let deleteX = Number(newLocation[0]) + 1;
         let deleteY = Number(newLocation[1]) + 1;
         let del = document.getElementById(deleteX + "," + deleteY);
-        if (del.firstElementChild.classList.contains("playerP")) {
+        if (
+          del.firstElementChild !== null &&
+          del.firstElementChild.classList.contains("playerP")
+        ) {
           return false;
         }
         del.removeChild(del.firstElementChild);
@@ -91,10 +103,11 @@ class Game extends Board {
         targetSpace.appendChild(piece);
         if (this.checkMultiJump("playerP", newLocation, piece) === false) {
           this.hasMoved = true;
+          this.piece = piece;
           return false;
         }
       }
-    } else if (piece.classList.contains("playerG")) {
+    } else if (piece !== null && piece.classList.contains("playerG")) {
       // making a jump to the bottom left
       if (
         newLocation[0] - prevLocation[0] == 2 &&
@@ -103,7 +116,10 @@ class Game extends Board {
         let deleteX = Number(newLocation[0]) - 1;
         let deleteY = Number(newLocation[1]) + 1;
         let del = document.getElementById(deleteX + "," + deleteY);
-        if (del.firstElementChild.classList.contains("playerG")) {
+        if (
+          del.firstElementChild !== null &&
+          del.firstElementChild.classList.contains("playerG")
+        ) {
           return false;
         }
         del.removeChild(del.firstElementChild);
@@ -111,6 +127,7 @@ class Game extends Board {
         targetSpace.appendChild(piece);
         if (this.checkMultiJump("playerG", newLocation, piece) === false) {
           this.hasMoved = true;
+          this.piece = piece;
           return false;
         }
       }
@@ -122,7 +139,10 @@ class Game extends Board {
         let deleteX = Number(newLocation[0]) - 1;
         let deleteY = Number(newLocation[1]) - 1;
         let del = document.getElementById(deleteX + "," + deleteY);
-        if (del.firstElementChild.classList.contains("playerG")) {
+        if (
+          del.firstElementChild !== null &&
+          del.firstElementChild.classList.contains("playerG")
+        ) {
           return false;
         }
         del.removeChild(del.firstElementChild);
@@ -130,6 +150,7 @@ class Game extends Board {
         targetSpace.appendChild(piece);
         if (this.checkMultiJump("playerG", newLocation, piece) === false) {
           this.hasMoved = true;
+          this.piece = piece;
           return false;
         }
       }
@@ -137,11 +158,19 @@ class Game extends Board {
 
     //cant move more then one space
     if (piece.classList.contains("playerP")) {
-      if (prevLocation[0] - newLocation[0] !== 1) {
+      if (
+        prevLocation[0] - newLocation[0] !== 1 ||
+        Math.abs(prevLocation[1] - newLocation[1]) !== 1
+      ) {
+        console.log("erer");
         return false;
       }
     } else if (piece.classList.contains("playerG")) {
-      if (newLocation[0] - prevLocation[0] !== 1) {
+      if (
+        newLocation[0] - prevLocation[0] !== 1 &&
+        newLocation[1] - prevLocation[1] !== 1
+      ) {
+        console.log("erer2");
         return false;
       }
     }
@@ -159,7 +188,10 @@ class Game extends Board {
         tempR = Number(newLocation[0]) - 1;
         tempC = Number(newLocation[1]) - 1;
         let temp = document.getElementById(tempR + "," + tempC);
-        if (temp.firstElementChild !== null && temp.firstElementChild.classList.contains("playerG")) {
+        if (
+          temp.firstElementChild !== null &&
+          temp.firstElementChild.classList.contains("playerG")
+        ) {
           if (tempR != 0 && tempC != 0) {
             tempR2 = tempR - 1;
             tempC2 = tempC - 1;
@@ -170,14 +202,21 @@ class Game extends Board {
             return true;
           }
         }
+        else {
+          
+        }
         return false;
+
       }
       // check if top right can be jumped
       else if (Number(newLocation[0]) !== 0 && Number(newLocation[1]) === 0) {
         tempR = Number(newLocation[0]) - 1;
         tempC = Number(newLocation[1]) + 1;
         let temp = document.getElementById(tempR + "," + tempC);
-        if (temp.firstElementChild !== null && temp.firstElementChild.classList.contains("playerG")) {
+        if (
+          temp.firstElementChild !== null &&
+          temp.firstElementChild.classList.contains("playerG")
+        ) {
           if (tempR != 0 && tempC != 0) {
             tempR2 = tempR - 1;
             tempC2 = tempC + 1;
@@ -189,16 +228,18 @@ class Game extends Board {
           }
         }
         return false;
-      } 
+      }
       //check if top left or right is green
       else if (Number(newLocation[0]) !== 0) {
-
         let noTopRight = false;
         //top right
         tempR = Number(newLocation[0]) - 1;
         tempC = Number(newLocation[1]) + 1;
         let temp = document.getElementById(tempR + "," + tempC);
-        if (temp.firstElementChild !== null && temp.firstElementChild.classList.contains("playerG")) {
+        if (
+          temp.firstElementChild !== null &&
+          temp.firstElementChild.classList.contains("playerG")
+        ) {
           if (tempR != 0 && tempC != 0) {
             tempR2 = tempR - 1;
             tempC2 = tempC + 1;
@@ -209,17 +250,19 @@ class Game extends Board {
           }
         }
         //top left
-        if (noTopRight){
+        if (noTopRight) {
           tempR = Number(newLocation[0]) - 1;
           tempC = Number(newLocation[1]) - 1;
           let temp = document.getElementById(tempR + "," + tempC);
-          if (temp.firstElementChild !== null && temp.firstElementChild.classList.contains("playerG")) {
+          if (
+            temp.firstElementChild !== null &&
+            temp.firstElementChild.classList.contains("playerG")
+          ) {
             if (tempR != 0 && tempC != 0) {
               tempR2 = tempR - 1;
               tempC2 = tempC - 1;
               let temp2 = document.getElementById(tempR2 + "," + tempC2);
               if (temp2.firstElementChild.classList.contains("playerG")) {
-                
                 return false;
               }
               return true;
@@ -227,16 +270,106 @@ class Game extends Board {
           }
           return false;
         }
-      } 
+      }
       //row zero
-      else if(Number(newLocation[0]) === 0){
-        console.log("KINGG")
+      else if (Number(newLocation[0]) === 0) {
         this.becomeKingPiece(piece);
         return false;
       }
     }
 
-
+    //playerG
+    else {
+      // check if bottom right can be jumped
+      if (Number(newLocation[0]) !== 7 && Number(newLocation[1]) === 0) {
+        tempR = Number(newLocation[0]) + 1;
+        tempC = Number(newLocation[1]) + 1;
+        let temp = document.getElementById(tempR + "," + tempC);
+        if (
+          temp.firstElementChild !== null &&
+          temp.firstElementChild.classList.contains("playerP")
+        ) {
+          if (tempR != 7 && tempC != 7) {
+            tempR2 = tempR + 1;
+            tempC2 = tempC + 1;
+            let temp2 = document.getElementById(tempR2 + "," + tempC2);
+            if (temp2.firstElementChild.classList.contains("playerP")) {
+              return false;
+            }
+            return true;
+          }
+        }
+        return false;
+      }
+      // check if bottom left can be jumped
+      else if (Number(newLocation[0]) !== 7 && Number(newLocation[1]) === 7) {
+        tempR = Number(newLocation[0]) + 1;
+        tempC = Number(newLocation[1]) - 1;
+        let temp = document.getElementById(tempR + "," + tempC);
+        if (
+          temp.firstElementChild !== null &&
+          temp.firstElementChild.classList.contains("playerP")
+        ) {
+          if (tempR != 7 && tempC != 7) {
+            tempR2 = tempR + 1;
+            tempC2 = tempC - 1;
+            let temp2 = document.getElementById(tempR2 + "," + tempC2);
+            if (temp2.firstElementChild.classList.contains("playerP")) {
+              return false;
+            }
+            return true;
+          }
+        }
+        return false;
+      }
+      //check if bottom left or right is green
+      else if (Number(newLocation[0]) !== 7) {
+        let noBotLeft = false;
+        //bottom left
+        tempR = Number(newLocation[0]) + 1;
+        tempC = Number(newLocation[1]) - 1;
+        let temp = document.getElementById(tempR + "," + tempC);
+        if (
+          temp.firstElementChild !== null &&
+          temp.firstElementChild.classList.contains("playerP")
+        ) {
+          if (tempR != 7 && tempC != 7) {
+            tempR2 = tempR + 1;
+            tempC2 = tempC - 1;
+            let temp2 = document.getElementById(tempR2 + "," + tempC2);
+            if (temp2.firstElementChild.classList.contains("playerP")) {
+              noBotLeft = true;
+            }
+          }
+        }
+        // bottom right 
+        if (noBotLeft) {
+          tempR = Number(newLocation[0]) + 1;
+          tempC = Number(newLocation[1]) + 1;
+          let temp = document.getElementById(tempR + "," + tempC);
+          if (
+            temp.firstElementChild !== null &&
+            temp.firstElementChild.classList.contains("playerP")
+          ) {
+            if (tempR != 7 && tempC != 7) {
+              tempR2 = tempR + 1;
+              tempC2 = tempC + 1;
+              let temp2 = document.getElementById(tempR2 + "," + tempC2);
+              if (temp2.firstElementChild.classList.contains("playerP")) {
+                return false;
+              }
+              return true;
+            }
+          }
+          return false;
+        }
+      }
+      //row zero
+      else if (Number(newLocation[0]) === 7) {
+        this.becomeKingPiece(piece);
+        return false;
+      }
+    }
   }
 
   becomeKingPiece(piece) {

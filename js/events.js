@@ -22,7 +22,7 @@ document.addEventListener("DOMContentLoaded", e => {
     let isBlock = target.classList.contains("black");
     
     let turn = game.getTurn() % 2 === 0 ? "playerP" : "playerG";
-    let isPiece = target.classList.contains(turn);    
+    let isPiece = target.classList.contains(turn);
     
     //Select a piece
     if (isPiece && !selected) {
@@ -42,6 +42,8 @@ document.addEventListener("DOMContentLoaded", e => {
     //Select a block after selecting a piece
     else if (isBlock && selected) {
       let validMove = game.checkIfValidMove(target, prevPiece);
+      let jumpPiece =  game.getPiece();
+      
       if (validMove || game.checkHasMoved()) {
         console.log(game.getTurn());
         if(prevPiece){

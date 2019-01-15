@@ -41,11 +41,11 @@ class Board {
   loadPieces() {
     let blackSpaces = document.querySelectorAll(".black");   
 
-    blackSpaces.forEach(space => {
+    blackSpaces.forEach((space, index) => {
       let location = space.getAttribute("data-location").split(",");
-      let piece1 = `<div class="piece playerG"> </div>`;
-      let piece2 = `<div class="piece playerP"> </div>`;
-      if (Number(location[0]) < 3) { 
+      let piece1 = `<div id="piece${index}"class="piece playerG"> </div>`;
+      let piece2 = `<div id="piece${index}"class="piece playerP"> </div>`;
+      if (Number(location[0]) < 3) {      
         space.innerHTML = piece1;
       } else if (Number(location[0]) > 4){
         space.innerHTML = piece2;
