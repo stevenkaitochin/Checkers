@@ -43,7 +43,6 @@ document.addEventListener("DOMContentLoaded", e => {
     else if (isBlock && selected) {
       let validMove = game.checkIfValidMove(target, prevPiece);
       let jumpPiece =  game.getPiece();
-      
       if (validMove || game.checkHasMoved()) {
         console.log(game.getTurn());
         if(prevPiece){

@@ -25,155 +25,113 @@ class Game extends Board {
     return this.piece;
   }
 
-  checkIfValidMove(targetSpace, piece) {
-    //check if player is correct player
+  checkCorrectPlayer(piece) {
     if (this.turn % 2 == 0) {
-      if (piece.classList.contains("playerG")) {
+      if (piece.classList.contains("playerG")) 
         return false;
-      }
-    } else {
-      if (piece.classList.contains("playerP")) {
+      else 
+        return true;
+    } 
+    else if (this.turn % 2 == 1) {
+      if (piece.classList.contains("playerP")) 
         return false;
-      }
+      else
+        return true;
     }
+  }
 
-    //cant move on space with a piece
-    let blockEmpty = targetSpace.children.length === 0;
-    if (!blockEmpty) {
+  // Make sure normal piece can't move backwards
+  checkBackwardsMove(piece, newLocation, prevLocation) {
+    if (piece.classList.contains("playerP")) {
+      if (newLocation[0] >= prevLocation[0])
+        return false;
+      else return true;
+    }
+    else if (piece.classList.contains("playerG")) {
+      if (newLocation[0] <= prevLocation[0])
+        return false;
+      else return true;
+    }
+  }
+
+  deletePiece(del, piece, targetSpace, newLocation) {
+    del.removeChild(del.firstElementChild);
+    piece.parentNode.removeChild(piece);
+    targetSpace.appendChild(piece);
+    if (this.checkMultiJump("playerP", newLocation, piece) === false) {
+      this.hasMoved = true;
+      this.piece = piece;
       return false;
     }
+    return true;
+  }
 
-    let prevLocation = piece.parentNode
-      .getAttribute("data-location")
-      .split(",");
-    let newLocation = targetSpace.getAttribute("data-location").split(",");
 
-    //cant move backwards (different for each player)
-    if (piece.classList.contains("playerP")) {
-      if (newLocation[0] >= prevLocation[0]) {
-        return false;
-      }
-    } else if (piece.classList.contains("playerG")) {
-      if (newLocation[0] <= prevLocation[0]) {
-        return false;
-      }
-    }
-
-    // making a jump
+  checkIfCanJump(piece, newLocation, prevLocation, targetSpace) {
     if (piece !== null && piece.classList.contains("playerP")) {
       // making a jump to the top right
-      if (
-        prevLocation[0] - newLocation[0] == 2 &&
-        newLocation[1] - prevLocation[1] == 2
-      ) {
+      if (prevLocation[0] - newLocation[0] == 2 && newLocation[1] - prevLocation[1] == 2) {
         let deleteX = Number(newLocation[0]) + 1;
         let deleteY = Number(newLocation[1]) - 1;
         let del = document.getElementById(deleteX + "," + deleteY);
-        if (
-          del.firstElementChild !== null &&
-          del.firstElementChild.classList.contains("playerP")
-        ) {
+        if (del.firstElementChild !== null && del.firstElementChild.classList.contains("playerP")) 
           return false;
-        }
-        del.removeChild(del.firstElementChild);
-        piece.parentNode.removeChild(piece);
-        targetSpace.appendChild(piece);
-        if (this.checkMultiJump("playerP", newLocation, piece) === false) {
-          this.hasMoved = true;
-          this.piece = piece;
-          return false;
-        }
+        if (!this.deletePiece(del, piece, targetSpace, newLocation)) return false;
       }
       // making a jump to the top left
-      else if (
-        prevLocation[0] - newLocation[0] == 2 &&
-        prevLocation[1] - newLocation[1] == 2
-      ) {
+      else if (prevLocation[0] - newLocation[0] == 2 && prevLocation[1] - newLocation[1] == 2) {
         let deleteX = Number(newLocation[0]) + 1;
         let deleteY = Number(newLocation[1]) + 1;
         let del = document.getElementById(deleteX + "," + deleteY);
-        if (
-          del.firstElementChild !== null &&
-          del.firstElementChild.classList.contains("playerP")
-        ) {
+        if (del.firstElementChild !== null && del.firstElementChild.classList.contains("playerP"))
           return false;
-        }
-        del.removeChild(del.firstElementChild);
-        piece.parentNode.removeChild(piece);
-        targetSpace.appendChild(piece);
-        if (this.checkMultiJump("playerP", newLocation, piece) === false) {
-          this.hasMoved = true;
-          this.piece = piece;
-          return false;
-        }
+        if (!this.deletePiece(del, piece, targetSpace, newLocation)) return false;
       }
-    } else if (piece !== null && piece.classList.contains("playerG")) {
+    }
+    else if (piece !== null && piece.classList.contains("playerG")) {
       // making a jump to the bottom left
-      if (
-        newLocation[0] - prevLocation[0] == 2 &&
-        prevLocation[1] - newLocation[1] == 2
-      ) {
+      if (newLocation[0] - prevLocation[0] == 2 && prevLocation[1] - newLocation[1] == 2) {
         let deleteX = Number(newLocation[0]) - 1;
         let deleteY = Number(newLocation[1]) + 1;
         let del = document.getElementById(deleteX + "," + deleteY);
-        if (
-          del.firstElementChild !== null &&
-          del.firstElementChild.classList.contains("playerG")
-        ) {
+        if (del.firstElementChild !== null && del.firstElementChild.classList.contains("playerG"))
           return false;
-        }
-        del.removeChild(del.firstElementChild);
-        piece.parentNode.removeChild(piece);
-        targetSpace.appendChild(piece);
-        if (this.checkMultiJump("playerG", newLocation, piece) === false) {
-          this.hasMoved = true;
-          this.piece = piece;
-          return false;
-        }
+        if (!this.deletePiece(del, piece, targetSpace, newLocation)) return false;
       }
       // making a jump to the bottom right
-      else if (
-        newLocation[0] - prevLocation[0] == 2 &&
-        newLocation[1] - prevLocation[1] == 2
-      ) {
+      else if (newLocation[0] - prevLocation[0] == 2 && newLocation[1] - prevLocation[1] == 2) {
         let deleteX = Number(newLocation[0]) - 1;
         let deleteY = Number(newLocation[1]) - 1;
         let del = document.getElementById(deleteX + "," + deleteY);
-        if (
-          del.firstElementChild !== null &&
-          del.firstElementChild.classList.contains("playerG")
-        ) {
+        if (del.firstElementChild !== null &&del.firstElementChild.classList.contains("playerG"))
           return false;
-        }
-        del.removeChild(del.firstElementChild);
-        piece.parentNode.removeChild(piece);
-        targetSpace.appendChild(piece);
-        if (this.checkMultiJump("playerG", newLocation, piece) === false) {
-          this.hasMoved = true;
-          this.piece = piece;
-          return false;
-        }
+        if (!this.deletePiece(del, piece, targetSpace, newLocation)) return false;
       }
     }
+    return true;
+  }
+
+  checkIfValidMove(targetSpace, piece) {
+    let prevLocation = piece.parentNode.getAttribute("data-location").split(",");
+    let newLocation = targetSpace.getAttribute("data-location").split(",");
+
+    if (!this.checkCorrectPlayer(piece)) return false;
+
+    //cant move on space with a piece
+    if (targetSpace.children.length !== 0)
+      return false;
+
+    if (!this.checkBackwardsMove(piece, newLocation, prevLocation)) return false;
+
+    if (!this.checkIfCanJump(piece, newLocation, prevLocation, targetSpace)) return false; 
 
     //cant move more then one space
-    if (piece.classList.contains("playerP")) {
-      if (
-        prevLocation[0] - newLocation[0] !== 1 ||
-        Math.abs(prevLocation[1] - newLocation[1]) !== 1
-      ) {
-        console.log("erer");
+    if (piece.classList.contains("playerP"))
+      if (prevLocation[0] - newLocation[0] !== 1 || Math.abs(prevLocation[1] - newLocation[1]) !== 1)
         return false;
-      }
-    } else if (piece.classList.contains("playerG")) {
-      if (
-        newLocation[0] - prevLocation[0] !== 1 &&
-        newLocation[1] - prevLocation[1] !== 1
-      ) {
-        console.log("erer2");
+    else if (piece.classList.contains("playerG"))
+      if (newLocation[0] - prevLocation[0] !== 1 || Math.abs(newLocation[1] - prevLocation[1]) !== 1)
         return false;
-      }
-    }
 
     return true;
   }
@@ -188,84 +146,68 @@ class Game extends Board {
         tempR = Number(newLocation[0]) - 1;
         tempC = Number(newLocation[1]) - 1;
         let temp = document.getElementById(tempR + "," + tempC);
-        if (
-          temp.firstElementChild !== null &&
-          temp.firstElementChild.classList.contains("playerG")
-        ) {
+        if (temp.firstElementChild !== null && temp.firstElementChild.classList.contains("playerG")) {
           if (tempR != 0 && tempC != 0) {
             tempR2 = tempR - 1;
             tempC2 = tempC - 1;
             let temp2 = document.getElementById(tempR2 + "," + tempC2);
-            if (temp2.firstElementChild.classList.contains("playerG")) {
-              return false;
+            if (temp2.firstElementChild === null) {
+              return true;
             }
-            return true;
+            return false;
           }
         }
-        else {
-          
-        }
         return false;
-
       }
       // check if top right can be jumped
       else if (Number(newLocation[0]) !== 0 && Number(newLocation[1]) === 0) {
         tempR = Number(newLocation[0]) - 1;
         tempC = Number(newLocation[1]) + 1;
         let temp = document.getElementById(tempR + "," + tempC);
-        if (
-          temp.firstElementChild !== null &&
-          temp.firstElementChild.classList.contains("playerG")
-        ) {
+        if (temp.firstElementChild !== null && temp.firstElementChild.classList.contains("playerG")) {
           if (tempR != 0 && tempC != 0) {
             tempR2 = tempR - 1;
             tempC2 = tempC + 1;
             let temp2 = document.getElementById(tempR2 + "," + tempC2);
-            if (temp2.firstElementChild.classList.contains("playerG")) {
-              return false;
+            if (temp2.firstElementChild === null) {
+              return true;
             }
-            return true;
+            return false;
           }
         }
         return false;
       }
-      //check if top left or right is green
+      // check if top left or right is green
       else if (Number(newLocation[0]) !== 0) {
         let noTopRight = false;
-        //top right
+        // top right
         tempR = Number(newLocation[0]) - 1;
         tempC = Number(newLocation[1]) + 1;
         let temp = document.getElementById(tempR + "," + tempC);
-        if (
-          temp.firstElementChild !== null &&
-          temp.firstElementChild.classList.contains("playerG")
-        ) {
+        if (temp.firstElementChild !== null && temp.firstElementChild.classList.contains("playerG")) {
           if (tempR != 0 && tempC != 0) {
             tempR2 = tempR - 1;
             tempC2 = tempC + 1;
             let temp2 = document.getElementById(tempR2 + "," + tempC2);
-            if (temp2.firstElementChild.classList.contains("playerG")) {
-              noTopRight = true;
+            if (temp2.firstElementChild === null) {
+              return true;
             }
           }
         }
-        //top left
+        noTopRight = true;
+        // top left
         if (noTopRight) {
           tempR = Number(newLocation[0]) - 1;
           tempC = Number(newLocation[1]) - 1;
           let temp = document.getElementById(tempR + "," + tempC);
-          if (
-            temp.firstElementChild !== null &&
-            temp.firstElementChild.classList.contains("playerG")
-          ) {
+          if (temp.firstElementChild !== null && temp.firstElementChild.classList.contains("playerG")) {
             if (tempR != 0 && tempC != 0) {
               tempR2 = tempR - 1;
               tempC2 = tempC - 1;
               let temp2 = document.getElementById(tempR2 + "," + tempC2);
-              if (temp2.firstElementChild.classList.contains("playerG")) {
-                return false;
+              if (temp2.firstElementChild === null) {
+                return true;
               }
-              return true;
             }
           }
           return false;
@@ -374,8 +316,6 @@ class Game extends Board {
 
   becomeKingPiece(piece) {
     piece.classList.add("king");
-    piece.innerHTML = `
-      <i class="fab fa-jedi-order"></i>
-    `;
+    piece.innerHTML = `<i class="fab fa-jedi-order"></i>`;
   }
 }
