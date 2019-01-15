@@ -58,7 +58,11 @@ class Game extends Board {
     del.removeChild(del.firstElementChild);
     piece.parentNode.removeChild(piece);
     targetSpace.appendChild(piece);
-    if (this.checkMultiJump("playerP", newLocation, piece) === false) {
+  }
+
+  checkMultiJump(del, piece, targetSpace, newLocation) {
+    if (this.checkMultiJumpHelper("playerP", newLocation, piece) === false) {
+      console.log("got here");
       this.hasMoved = true;
       this.piece = piece;
       return false;
@@ -76,7 +80,11 @@ class Game extends Board {
         let del = document.getElementById(deleteX + "," + deleteY);
         if (del.firstElementChild !== null && del.firstElementChild.classList.contains("playerP")) 
           return false;
-        if (!this.deletePiece(del, piece, targetSpace, newLocation)) return false;
+        this.deletePiece(del, piece, targetSpace, newLocation);
+        if (!this.checkMultiJump(del, piece, targetSpace, newLocation)) {
+          console.log("hi");
+          return false;
+        }
       }
       // making a jump to the top left
       else if (prevLocation[0] - newLocation[0] == 2 && prevLocation[1] - newLocation[1] == 2) {
@@ -85,7 +93,11 @@ class Game extends Board {
         let del = document.getElementById(deleteX + "," + deleteY);
         if (del.firstElementChild !== null && del.firstElementChild.classList.contains("playerP"))
           return false;
-        if (!this.deletePiece(del, piece, targetSpace, newLocation)) return false;
+        this.deletePiece(del, piece, targetSpace, newLocation);
+        if (!this.checkMultiJump(del, piece, targetSpace, newLocation)) {
+          console.log("hi2");
+          return false;
+        }
       }
     }
     else if (piece !== null && piece.classList.contains("playerG")) {
@@ -96,7 +108,11 @@ class Game extends Board {
         let del = document.getElementById(deleteX + "," + deleteY);
         if (del.firstElementChild !== null && del.firstElementChild.classList.contains("playerG"))
           return false;
-        if (!this.deletePiece(del, piece, targetSpace, newLocation)) return false;
+        this.deletePiece(del, piece, targetSpace, newLocation);
+        if (!this.checkMultiJump(del, piece, targetSpace, newLocation)) {
+          console.log("hi3");
+          return false;
+        }
       }
       // making a jump to the bottom right
       else if (newLocation[0] - prevLocation[0] == 2 && newLocation[1] - prevLocation[1] == 2) {
@@ -105,7 +121,11 @@ class Game extends Board {
         let del = document.getElementById(deleteX + "," + deleteY);
         if (del.firstElementChild !== null &&del.firstElementChild.classList.contains("playerG"))
           return false;
-        if (!this.deletePiece(del, piece, targetSpace, newLocation)) return false;
+        this.deletePiece(del, piece, targetSpace, newLocation);
+        if (!this.checkMultiJump(del, piece, targetSpace, newLocation)) {
+          console.log("hi4");
+          return false;
+        }
       }
     }
     return true;
@@ -136,7 +156,7 @@ class Game extends Board {
     return true;
   }
 
-  checkMultiJump(player, newLocation, piece) {
+  checkMultiJumpHelper(player, newLocation, piece) {
     let tempR, tempC;
     let tempR2, tempC2;
 
