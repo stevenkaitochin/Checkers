@@ -18,6 +18,9 @@ document.addEventListener("DOMContentLoaded", e => {
   });
 
   document.addEventListener("click", e =>{
+        console.log("A" ,prevPiece);
+    console.log("B", game.getPiece());
+    console.log("C", game.checkHasMoved());
     let target = e.target;
     let isBlock = target.classList.contains("black");
     
@@ -38,6 +41,9 @@ document.addEventListener("DOMContentLoaded", e => {
       }
       prevPiece = target;
       selected = true;
+    }
+    else if (prevPiece === game.getPiece() && game.checkHasMoved()) {
+      console.log("fucking");
     }
     //Select a block after selecting a piece
     else if (isBlock && selected) {

@@ -58,9 +58,11 @@ class Game extends Board {
     del.removeChild(del.firstElementChild);
     piece.parentNode.removeChild(piece);
     targetSpace.appendChild(piece);
-    if (this.checkMultiJump("playerP", newLocation, piece) === false) {
-      this.hasMoved = true;
-      this.piece = piece;
+  }
+
+  checkMultiJump(del, piece, targetSpace, newLocation) {
+    if (this.checkMultiJumpHelper("playerP", newLocation, piece) === false) {
+      console.log(this.checkHasMoved());
       return false;
     }
     return true;
@@ -68,6 +70,7 @@ class Game extends Board {
 
 
   checkIfCanJump(piece, newLocation, prevLocation, targetSpace) {
+    this.piece = piece;
     if (piece !== null && piece.classList.contains("playerP")) {
       // making a jump to the top right
       if (prevLocation[0] - newLocation[0] == 2 && newLocation[1] - prevLocation[1] == 2) {
@@ -76,7 +79,10 @@ class Game extends Board {
         let del = document.getElementById(deleteX + "," + deleteY);
         if (del.firstElementChild !== null && del.firstElementChild.classList.contains("playerP")) 
           return false;
-        if (!this.deletePiece(del, piece, targetSpace, newLocation)) return false;
+        this.deletePiece(del, piece, targetSpace, newLocation);
+        if (!this.checkMultiJump(del, piece, targetSpace, newLocation)) {
+          return false;
+        }
       }
       // making a jump to the top left
       else if (prevLocation[0] - newLocation[0] == 2 && prevLocation[1] - newLocation[1] == 2) {
@@ -85,7 +91,10 @@ class Game extends Board {
         let del = document.getElementById(deleteX + "," + deleteY);
         if (del.firstElementChild !== null && del.firstElementChild.classList.contains("playerP"))
           return false;
-        if (!this.deletePiece(del, piece, targetSpace, newLocation)) return false;
+        this.deletePiece(del, piece, targetSpace, newLocation);
+        if (!this.checkMultiJump(del, piece, targetSpace, newLocation)) {
+          return false;
+        }
       }
     }
     else if (piece !== null && piece.classList.contains("playerG")) {
@@ -96,7 +105,10 @@ class Game extends Board {
         let del = document.getElementById(deleteX + "," + deleteY);
         if (del.firstElementChild !== null && del.firstElementChild.classList.contains("playerG"))
           return false;
-        if (!this.deletePiece(del, piece, targetSpace, newLocation)) return false;
+        this.deletePiece(del, piece, targetSpace, newLocation);
+        if (!this.checkMultiJump(del, piece, targetSpace, newLocation)) {
+          return false;
+        }
       }
       // making a jump to the bottom right
       else if (newLocation[0] - prevLocation[0] == 2 && newLocation[1] - prevLocation[1] == 2) {
@@ -105,7 +117,10 @@ class Game extends Board {
         let del = document.getElementById(deleteX + "," + deleteY);
         if (del.firstElementChild !== null &&del.firstElementChild.classList.contains("playerG"))
           return false;
-        if (!this.deletePiece(del, piece, targetSpace, newLocation)) return false;
+        this.deletePiece(del, piece, targetSpace, newLocation);
+        if (!this.checkMultiJump(del, piece, targetSpace, newLocation)) {
+          return false;
+        }
       }
     }
     return true;
@@ -136,7 +151,7 @@ class Game extends Board {
     return true;
   }
 
-  checkMultiJump(player, newLocation, piece) {
+  checkMultiJumpHelper(player, newLocation, piece) {
     let tempR, tempC;
     let tempR2, tempC2;
 
@@ -154,9 +169,11 @@ class Game extends Board {
             if (temp2.firstElementChild === null) {
               return true;
             }
+                    this.hasMoved = true;
             return false;
           }
         }
+                this.hasMoved = true;
         return false;
       }
       // check if top right can be jumped
@@ -172,9 +189,11 @@ class Game extends Board {
             if (temp2.firstElementChild === null) {
               return true;
             }
+                    this.hasMoved = true;
             return false;
           }
         }
+                this.hasMoved = true;
         return false;
       }
       // check if top left or right is green
@@ -210,12 +229,14 @@ class Game extends Board {
               }
             }
           }
+                  this.hasMoved = true;
           return false;
         }
       }
       //row zero
       else if (Number(newLocation[0]) === 0) {
         this.becomeKingPiece(piece);
+                this.hasMoved = true;
         return false;
       }
     }
@@ -236,11 +257,13 @@ class Game extends Board {
             tempC2 = tempC + 1;
             let temp2 = document.getElementById(tempR2 + "," + tempC2);
             if (temp2.firstElementChild.classList.contains("playerP")) {
+                      this.hasMoved = true;
               return false;
             }
             return true;
           }
         }
+                this.hasMoved = true;
         return false;
       }
       // check if bottom left can be jumped
@@ -257,11 +280,13 @@ class Game extends Board {
             tempC2 = tempC - 1;
             let temp2 = document.getElementById(tempR2 + "," + tempC2);
             if (temp2.firstElementChild.classList.contains("playerP")) {
+                      this.hasMoved = true;
               return false;
             }
             return true;
           }
         }
+                this.hasMoved = true;
         return false;
       }
       //check if bottom left or right is green
@@ -298,17 +323,20 @@ class Game extends Board {
               tempC2 = tempC + 1;
               let temp2 = document.getElementById(tempR2 + "," + tempC2);
               if (temp2.firstElementChild.classList.contains("playerP")) {
+                        this.hasMoved = true;
                 return false;
               }
               return true;
             }
           }
+                  this.hasMoved = true;
           return false;
         }
       }
       //row zero
       else if (Number(newLocation[0]) === 7) {
         this.becomeKingPiece(piece);
+        this.hasMoved = true;
         return false;
       }
     }
